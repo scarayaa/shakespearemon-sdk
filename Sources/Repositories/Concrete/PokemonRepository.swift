@@ -18,7 +18,7 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         self.translationsDataSource = translationsDataSource
     }
     
-    func getShakespereanDescription(ofPokemon name: String) async throws -> String {
+    func getShakespeareanDescription(ofPokemon name: String) async throws -> String {
         let pokemonSpecies = try await pokemonDataSource.getPokemonSpecies(of: name)
         
         let entry = pokemonSpecies.flavorTextEntries.first {

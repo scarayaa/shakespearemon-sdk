@@ -1,7 +1,7 @@
 import XCTest
 @testable import ShakespearemonSDK
 
-final class ShakespearemonTests: XCTestCase {
+final class ShakespearemonSDKTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest

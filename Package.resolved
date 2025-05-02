@@ -1,0 +1,24 @@
+{
+  "originHash" : "e2a34fd18a4c3a1ec8650b664b6a67946e6e59668a43547d5254bdc638e7f145",
+  "pins" : [
+    {
+      "identity" : "nuke",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kean/Nuke.git",
+      "state" : {
+        "revision" : "0ead44350d2737db384908569c012fe67c421e4d",
+        "version" : "12.8.0"
+      }
+    },
+    {
+      "identity" : "realhttp",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/immobiliare/RealHTTP.git",
+      "state" : {
+        "revision" : "fcec34a9996012aa2dc8ae70fc8c0d7075054739",
+        "version" : "1.9.0"
+      }
+    }
+  ],
+  "version" : 3
+}
