@@ -5,9 +5,9 @@
 //  Created by Fabrizio Scarano on 02/05/25.
 //
 
-struct ShakespearemonSDK {
+public struct ShakespearemonSDK {
     
-    static func api() -> ShakespearemonAPI {
-        Shakespearemon()
+    public static func getNewServiceInstance() -> ShakespearemonService {
+        ShakespearemonAPI()
     }
 }

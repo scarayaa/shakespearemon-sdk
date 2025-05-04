@@ -15,7 +15,7 @@ enum PokeAPIOperations {
         
         let path: String
         
-        let parameters: [String : Any] = [:]
+        let queryParameters: [String : String] = [:]
         
         let httpService: any HTTPServiceProtocol
         
@@ -33,7 +33,7 @@ enum PokeAPIOperations {
         
         let path: String
         
-        let parameters: [String : Any] = [:]
+        let queryParameters: [String : String] = [:]
         
         let httpService: any HTTPServiceProtocol
         

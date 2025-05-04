@@ -31,16 +31,15 @@ public struct PokemonDetailView: View {
     
     var imageView: some View {
         LazyImage(url: imageURL) { state in
-            if state.isLoading {
-                ProgressView("Loading sprite...")
-            } else if let result = state.result,
-                      case .success = result,
-                      let image = state.image {
+            if let image = state.image {
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-            } else {
+            } else if let result = state.result,
+                      case .failure = result {
                 Text("Sprite is unavailable")
+            } else {
+                ProgressView("Loading sprite...")
             }
         }
         .frame(width: 250, height: 250, alignment: .center)

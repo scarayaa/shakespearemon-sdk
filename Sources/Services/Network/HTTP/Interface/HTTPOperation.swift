@@ -11,7 +11,7 @@ protocol HTTPOperation: NetworkOperation where Result: Decodable {
     
     var path: String { get }
     
-    var parameters: [String : Any] { get }
+    var queryParameters: [String : String] { get }
     
     var httpService: any HTTPServiceProtocol { get }
 }
@@ -19,6 +19,6 @@ protocol HTTPOperation: NetworkOperation where Result: Decodable {
 extension HTTPOperation {
     
     func run() async throws -> Result {
-        try await httpService.fetch(method: method, path: path, parameters: parameters)
+        try await httpService.fetch(method: method, path: path, queryParameters: queryParameters)
     }
 }

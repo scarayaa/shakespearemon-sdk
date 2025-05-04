@@ -5,7 +5,7 @@
 //  Created by Fabrizio Scarano on 01/05/25.
 //
 
-import Foundation
+import Foundation.NSCoder
 
 extension Decodable {
     

@@ -9,19 +9,35 @@ final class PokemonNetworkDataSource: PokemonNetworkDataSourceProtocol {
     
     private let httpService: any HTTPServiceProtocol
     
+    private let maxNameLength = 12
+    
     init(httpService: any HTTPServiceProtocol) {
         self.httpService = httpService
     }
     
     func getPokemonSpecies(of name: String) async throws -> PokemonSpecies {
-        try await PokeAPIOperations.GetPokemonSpecies(
+        guard name.count <= maxNameLength else {
+            throw PokemonNetworkDataSourceError.maxNameLengthLimit(
+                max: maxNameLength,
+                exceeded: name.count
+            )
+        }
+        
+        return try await PokeAPIOperations.GetPokemonSpecies(
             httpService: httpService,
             name: name
         ).run()
     }
     
     func getPokemon(of name: String) async throws -> Pokemon {
-        try await PokeAPIOperations.GetPokemon(
+        guard name.count <= maxNameLength else {
+            throw PokemonNetworkDataSourceError.maxNameLengthLimit(
+                max: maxNameLength,
+                exceeded: name.count
+            )
+        }
+        
+        return try await PokeAPIOperations.GetPokemon(
             httpService: httpService,
             name: name
         ).run()

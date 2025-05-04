@@ -5,6 +5,8 @@
 //  Created by Fabrizio Scarano on 02/05/25.
 //
 
+import Foundation.NSURL
+
 final class PokemonRepository: PokemonRepositoryProtocol {
     
     private let pokemonDataSource: PokemonNetworkDataSourceProtocol
@@ -29,13 +31,20 @@ final class PokemonRepository: PokemonRepositoryProtocol {
             throw PokemonRepositoryError.englishDescriptionNotFound
         }
         
-        let shakespereanTranslation = try await translationsDataSource.getShakespereanTranslation(of: entry.flavorText)
+        let shakespereanTranslation = try await translationsDataSource.getShakespereanTranslation(of: entry.cleanedFlavorText)
         
         return shakespereanTranslation.contents.translated
     }
     
-    func getPokemonSpriteURL(ofPokemon name: String) async throws -> String {
+    func getPokemonSpriteURL(ofPokemon name: String) async throws -> URL {
         let pokemon = try await pokemonDataSource.getPokemon(of: name)
-        return pokemon.sprites.frontDefault
+        
+        let urlString = pokemon.sprites.frontDefault
+        
+        guard let url = URL(string: urlString) else {
+            throw PokemonRepositoryError.spriteUrlMalformed(string: urlString)
+        }
+        
+        return url
     }
 }
