@@ -7,6 +7,7 @@
 
 enum PokeAPIOperations {
     
+    /// The HTTP DTO for retrieving a Pokémon's info using the given name from PokeAPI.
     struct GetPokemon: HTTPOperation {
         
         typealias Result = Pokemon
@@ -25,6 +26,7 @@ enum PokeAPIOperations {
         }
     }
     
+    /// The HTTP DTO for retrieving a Pokémon Species's info using the given name from PokeAPI.
     struct GetPokemonSpecies: HTTPOperation {
         
         typealias Result = PokemonSpecies

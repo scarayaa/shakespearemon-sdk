@@ -5,6 +5,7 @@
 //  Created by Fabrizio Scarano on 01/05/25.
 //
 
+/// Represents a generic HTTP DTO for handling a specific HTTP request.
 protocol HTTPOperation: NetworkOperation where Result: Decodable {
     
     var method: HTTPMethod { get }

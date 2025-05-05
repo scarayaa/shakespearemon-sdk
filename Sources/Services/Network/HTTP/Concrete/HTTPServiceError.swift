@@ -7,8 +7,11 @@
 
 import RealHTTP
 
+/// Represents a list of HTTP service errors.
 enum HTTPServiceError: ShakespearemonError {
+    /// The system expected some data, but its content was empty.
     case unexpectedEmptyData(expectedType: Decodable.Type)
+    /// A 4xx client error.
     case clientError(HTTPStatusCode)
     
     var errorDescription: String? {

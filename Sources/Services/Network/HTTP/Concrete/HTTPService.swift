@@ -8,16 +8,21 @@
 import Foundation.NSCoder
 import RealHTTP
 
+/// A simple HTTP wrapper to make GET and POST requests with some query parameters.
 final class HTTPService: HTTPServiceProtocol {
     
+    /// The base path used by this service.
     let basePath: String
     
+    /// The underlying HTTP client, based on URLSession.
     private let client: HTTPClient = .shared
     
     init(basePath: String) {
         self.basePath = basePath
     }
     
+    /// A simple fetch method, in which a method, a path and some query
+    /// parameters may be specified (only thing needed for this project).
     func fetch<Result: Decodable>(
         method: HTTPMethod,
         path: String,
@@ -36,6 +41,8 @@ final class HTTPService: HTTPServiceProtocol {
         print(response.error == nil ? "🟩 Success" : "🟥 Failure", "\(response) -> \(request)")
         
         if let error = response.error {
+            // Handling most common errors in the 4xx range for the project, like
+            // 404 and 429
             if error.statusCode.responseType == .clientError {
                 throw HTTPServiceError.clientError(error.statusCode)
             } else {
@@ -44,6 +51,7 @@ final class HTTPService: HTTPServiceProtocol {
         }
         
         guard let data = response.data else {
+            // Handling the case `Result` is of type `Void`
             if let result = () as? Result {
                 return result
             } else {

@@ -1,5 +1,5 @@
 //
-//  PokemonRepository.swift
+//  ShakespearemonRepository.swift
 //  shakespearemon-sdk
 //
 //  Created by Fabrizio Scarano on 02/05/25.
@@ -7,7 +7,7 @@
 
 import Foundation.NSURL
 
-final class PokemonRepository: PokemonRepositoryProtocol {
+final class ShakespearemonRepository: ShakespearemonRepositoryProtocol {
     
     private let pokemonDataSource: PokemonNetworkDataSourceProtocol
     private let translationsDataSource: TranslationsNetworkDataSourceProtocol
@@ -23,15 +23,16 @@ final class PokemonRepository: PokemonRepositoryProtocol {
     func getShakespeareanDescription(ofPokemon name: String) async throws -> String {
         let pokemonSpecies = try await pokemonDataSource.getPokemonSpecies(of: name)
         
+        // At least an english entry needs to be present to be forwarded to the translations API.
         let entry = pokemonSpecies.flavorTextEntries.first {
             $0.language.name == "en"
         }
         
         guard let entry else {
-            throw PokemonRepositoryError.englishDescriptionNotFound
+            throw ShakespearemonRepositoryError.englishDescriptionNotFound
         }
         
-        let shakespereanTranslation = try await translationsDataSource.getShakespereanTranslation(of: entry.cleanedFlavorText)
+        let shakespereanTranslation = try await translationsDataSource.getShakespeareanTranslation(of: entry.cleanedFlavorText)
         
         return shakespereanTranslation.contents.translated
     }
@@ -42,7 +43,7 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         let urlString = pokemon.sprites.frontDefault
         
         guard let url = URL(string: urlString) else {
-            throw PokemonRepositoryError.spriteUrlMalformed(string: urlString)
+            throw ShakespearemonRepositoryError.spriteUrlMalformed(string: urlString)
         }
         
         return url

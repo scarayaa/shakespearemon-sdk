@@ -13,8 +13,8 @@ final class TranslationsNetworkDataSource: TranslationsNetworkDataSourceProtocol
         self.httpService = httpService
     }
     
-    func getShakespereanTranslation(of text: String) async throws -> Translation {
-        try await FunTranslationsOperations.GetShakespereanTranslation(
+    func getShakespeareanTranslation(of text: String) async throws -> Translation {
+        try await FunTranslationsOperations.getShakespeareanTranslation(
             httpService: httpService,
             text: text
         ).run()

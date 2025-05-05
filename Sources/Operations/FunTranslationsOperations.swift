@@ -9,10 +9,13 @@ import Foundation.NSURL
 
 enum FunTranslationsOperations {
     
-    struct GetShakespereanTranslation: HTTPOperation {
+    /// The HTTP DTO for performing the Shakespearean translation.
+    struct getShakespeareanTranslation: HTTPOperation {
         
         typealias Result = Translation
         
+        // Even if FunTranslations API specifies a POST method, GET is the only one working.
+        // I didn't investigate further since it works correctly with GET.
         let method: HTTPMethod = .get
 
         let path: String = "shakespeare.json"

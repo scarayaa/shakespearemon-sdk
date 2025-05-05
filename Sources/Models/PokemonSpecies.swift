@@ -41,6 +41,9 @@ extension PokemonSpecies {
             self.language = try container.decode(Language.self, forKey: .language)
         }
         
+        // Flavor text is left unprocessed as it is found in game files.
+        // This means that it contains special characters that one might want to replace with their visible decodable version.
+        // https://github.com/veekun/pokedex/issues/218#issuecomment-339841781
         private func cleanFlavorText(_ text: String) -> String {
             text.replacingOccurrences(of: "\u{c}", with: "\n")
                 .replacingOccurrences(of: "\u{ad}\n", with: "")

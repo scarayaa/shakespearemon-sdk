@@ -7,31 +7,20 @@
 
 import Foundation.NSURL
 
+/// The internal implementation of `ShakespearemonService`.
 final class ShakespearemonAPI: ShakespearemonService {
     
-    private let BASE_PATH_POKEAPI = "https://pokeapi.co/api/v2"
-    private let BASE_PATH_FUNTRANSLATIONS = "https://api.funtranslations.com/translate"
+    private let shakespearemonRepository: any ShakespearemonRepositoryProtocol
     
-    private let pokemonRepository: any PokemonRepositoryProtocol
-    
-    init() {
-        let pokeApiHttpService = HTTPService(basePath: BASE_PATH_POKEAPI)
-        let funTransationsHttpService = HTTPService(basePath: BASE_PATH_FUNTRANSLATIONS)
-        
-        let pokemonDataSource = PokemonNetworkDataSource(httpService: pokeApiHttpService)
-        let translationsDataSource = TranslationsNetworkDataSource(httpService: funTransationsHttpService)
-        
-        self.pokemonRepository = PokemonRepository(
-            pokemonDataSource: pokemonDataSource,
-            translationsDataSource: translationsDataSource
-        )
+    init(shakespearemonRepository: any ShakespearemonRepositoryProtocol) {
+        self.shakespearemonRepository = shakespearemonRepository
     }
     
     func getShakespeareanDescription(ofPokemon name: String) async throws -> String {
-        try await pokemonRepository.getShakespeareanDescription(ofPokemon: name)
+        try await shakespearemonRepository.getShakespeareanDescription(ofPokemon: name)
     }
     
     func getPokemonSpriteURL(ofPokemon name: String) async throws -> URL {
-        try await pokemonRepository.getPokemonSpriteURL(ofPokemon: name)
+        try await shakespearemonRepository.getPokemonSpriteURL(ofPokemon: name)
     }
 }
