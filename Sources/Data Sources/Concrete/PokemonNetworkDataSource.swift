@@ -10,6 +10,7 @@ final class PokemonNetworkDataSource: PokemonNetworkDataSourceProtocol {
     private let httpService: any HTTPServiceProtocol
     
     private let maxNameLength = 12
+    private let minNameLength = 3
     
     init(httpService: any HTTPServiceProtocol) {
         self.httpService = httpService
@@ -20,6 +21,13 @@ final class PokemonNetworkDataSource: PokemonNetworkDataSourceProtocol {
             throw PokemonNetworkDataSourceError.maxNameLengthLimit(
                 max: maxNameLength,
                 exceeded: name.count
+            )
+        }
+        
+        guard name.count >= minNameLength else {
+            throw PokemonNetworkDataSourceError.minNameLengthLimit(
+                min: minNameLength,
+                inserted: name.count
             )
         }
         
@@ -34,6 +42,13 @@ final class PokemonNetworkDataSource: PokemonNetworkDataSourceProtocol {
             throw PokemonNetworkDataSourceError.maxNameLengthLimit(
                 max: maxNameLength,
                 exceeded: name.count
+            )
+        }
+        
+        guard name.count >= minNameLength else {
+            throw PokemonNetworkDataSourceError.minNameLengthLimit(
+                min: minNameLength,
+                inserted: name.count
             )
         }
         

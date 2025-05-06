@@ -16,9 +16,7 @@ final class HTTPService: HTTPServiceProtocol {
         self.basePath = basePath
     }
     
-    func fetch<Result: Decodable>(from operation: any HTTPOperation) async throws -> Result {
-        let request = operation.makeRequest()
-        
+    func fetch<Result: Decodable>(using request: any HTTPRequestProtocol) async throws -> Result {
         print("▶️ Requesting -> \(request)")
         
         let response = try await request.fetch()
@@ -41,7 +39,7 @@ final class HTTPService: HTTPServiceProtocol {
         
         guard let data = response.data else {
             // Handling the case `Result` is of type `Void`
-            if let result = () as? Result {
+            if let result = VoidResult() as? Result {
                 return result
             } else {
                 throw HTTPServiceError.unexpectedEmptyData(expectedType: Result.self)

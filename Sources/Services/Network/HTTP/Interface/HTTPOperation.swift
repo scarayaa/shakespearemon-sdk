@@ -22,6 +22,6 @@ protocol HTTPOperation: NetworkOperation where Result: Decodable {
 extension HTTPOperation {
     
     func run() async throws -> Result {
-        try await httpService.fetch(from: self)
+        try await httpService.fetch(using: makeRequest())
     }
 }

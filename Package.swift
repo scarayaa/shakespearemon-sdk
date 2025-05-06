@@ -26,7 +26,10 @@ let package = Package(
             ]),
         .testTarget(
             name: "ShakespearemonSDKTests",
-            dependencies: ["ShakespearemonSDK"]
+            dependencies: ["ShakespearemonSDK"],
+            resources: [
+                .process("Resources")
+            ]
         ),
     ]
 )

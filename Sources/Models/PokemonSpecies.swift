@@ -59,6 +59,5 @@ extension PokemonSpecies.FlavorTextEntry {
     
     struct Language: Decodable {
         let name: String
-        let url: String
     }
 }

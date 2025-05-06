@@ -18,5 +18,5 @@ protocol HTTPServiceProtocol {
     ///     - operation: The HTTPOperation to execute.
     /// - Returns:
     ///     a generic `Result` type expected from the HTTP call.
-    func fetch<Result: Decodable>(from operation: any HTTPOperation) async throws -> Result
+    func fetch<Result: Decodable>(using request: any HTTPRequestProtocol) async throws -> Result
 }
