@@ -12,11 +12,12 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
     
     /// Tests the correct retrieval of a Pokemon structure in a success environment.
     func testGetPokemon() async throws {
-        let mockHttpService = HTTPServiceMock(testCase: .pokemon)
+        let mockedPokemon = mockPokemon()
+        let mockHttpService = HTTPServiceMock(testCase: .pokemon(mockedPokemon))
         let sut = PokemonNetworkDataSource(httpService: mockHttpService)
         
         // Name can be anything in the 3-12 length range. Mock is returning always the same response. This
-        // only tests the correct get of the Pokemon structure given a success response.
+        // only tests the correct get of the Pokemon structure.
         let pokemon = try await sut.getPokemon(of: "Clefairy")
         let expectedUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png"
         XCTAssertEqual(pokemon.sprites.frontDefault, expectedUrl)
@@ -26,7 +27,8 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
     /// NOTE: this also covers a test case of `PokemonSpecies.cleanedFlavorText`. A different
     /// unit test for it wpuld be good in the future.
     func testGetPokemonSpecies() async throws {
-        let mockHttpService = HTTPServiceMock(testCase: .pokemonSpecies)
+        let mockedPokemonSpecies = mockPokemonSpecies()
+        let mockHttpService = HTTPServiceMock(testCase: .pokemonSpecies(mockedPokemonSpecies))
         let sut = PokemonNetworkDataSource(httpService: mockHttpService)
         
         // Name can be anything in the 3-12 length range. Mock is returning always the same response. This
@@ -44,11 +46,11 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
     }
     
     func testPokemonNameLength() async throws {
-        try await checkPokemonNameLength(for: .pokemon)
-        try await checkPokemonNameLength(for: .pokemonSpecies)
+        try await checkPokemonNameLength(for: .pokemon(mockPokemon()))
+        try await checkPokemonNameLength(for: .pokemonSpecies(mockPokemonSpecies()))
     }
     
-    private func checkPokemonNameLength(for testCase: PokemonNetworkDataSourceTestCase) async throws {
+    private func checkPokemonNameLength(for testCase: NetworkDataSourceTestCase) async throws {
         let mockHttpService = HTTPServiceMock(testCase: testCase)
         let sut = PokemonNetworkDataSource(httpService: mockHttpService)
         
@@ -63,6 +65,9 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
                     _ = try await sut.getPokemon(of: name)
                 case .pokemonSpecies:
                     _ = try await sut.getPokemonSpecies(of: name)
+                default:
+                    // Shouldn't happen
+                    return
                 }
             } catch let error as PokemonNetworkDataSourceError {
                 if length < 3, case .minNameLengthLimit(let min, let inserted) = error {
@@ -78,5 +83,26 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
                 XCTFail("Unexpected error from PokemonNetworkDataSource")
             }
         }
+    }
+    
+    private func mockPokemon() -> Pokemon {
+        Pokemon(
+            sprites: Pokemon.Sprites(
+                frontDefault: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png"
+            )
+        )
+    }
+    
+    private func mockPokemonSpecies() -> PokemonSpecies {
+        PokemonSpecies(
+            flavorTextEntries: [
+                PokemonSpecies.FlavorTextEntry(
+                    flavorText: "Spits fire that\nis hot enough to\nmelt boulders.\u{c}Known to cause\nforest fires\nunintentionally.",
+                    language: PokemonSpecies.FlavorTextEntry.Language(
+                        name: "en"
+                    )
+                )
+            ]
+        )
     }
 }

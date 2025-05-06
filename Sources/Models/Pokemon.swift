@@ -7,6 +7,10 @@
 
 struct Pokemon: Decodable {
     let sprites: Sprites
+    
+    init(sprites: Sprites) {
+        self.sprites = sprites
+    }
 }
 
 extension Pokemon {
@@ -16,6 +20,10 @@ extension Pokemon {
         
         enum CodingKeys: String, CodingKey {
             case frontDefault = "front_default"
+        }
+        
+        init(frontDefault: String) {
+            self.frontDefault = frontDefault
         }
         
         init(from decoder: any Decoder) throws {

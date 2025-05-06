@@ -11,7 +11,7 @@ import RealHTTP
 
 final class HTTPServiceTests: XCTestCase {
     
-    // Not needed to setUp or tearDown because it is stateless
+    // No need to setUp or tearDown because it is stateless
     let sut = HTTPService(basePath: "testBasePath")
     
     /// Tests that HTTPService decodes the returned result correctly.

@@ -14,6 +14,10 @@ struct PokemonSpecies: Decodable {
         case flavorTextEntries = "flavor_text_entries"
     }
     
+    init(flavorTextEntries: [FlavorTextEntry]) {
+        self.flavorTextEntries = flavorTextEntries
+    }
+    
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.flavorTextEntries = try container.decode([FlavorTextEntry].self, forKey: .flavorTextEntries)
@@ -33,6 +37,11 @@ extension PokemonSpecies {
         enum CodingKeys: String, CodingKey {
             case flavorText = "flavor_text"
             case language
+        }
+        
+        init(flavorText: String, language: Language) {
+            self.flavorText = flavorText
+            self.language = language
         }
         
         init(from decoder: any Decoder) throws {

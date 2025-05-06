@@ -9,7 +9,7 @@
 /// to translate texts.
 protocol TranslationsNetworkDataSourceProtocol {
     
-    /// Fetches the Shakespere translation of the given text.
+    /// Fetches the shakespeare translation of the given text.
     ///
     /// - Parameters:
     ///     - text: The text to translate.

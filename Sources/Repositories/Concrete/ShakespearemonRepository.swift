@@ -32,9 +32,9 @@ final class ShakespearemonRepository: ShakespearemonRepositoryProtocol {
             throw ShakespearemonRepositoryError.englishDescriptionNotFound
         }
         
-        let shakespereanTranslation = try await translationsDataSource.getShakespeareanTranslation(of: entry.cleanedFlavorText)
+        let shakespeareanTranslation = try await translationsDataSource.getShakespeareanTranslation(of: entry.cleanedFlavorText)
         
-        return shakespereanTranslation.contents.translated
+        return shakespeareanTranslation.contents.translated
     }
     
     func getPokemonSpriteURL(ofPokemon name: String) async throws -> URL {
