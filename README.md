@@ -1,5 +1,5 @@
 # About
-It's a just a simple example of an SDK implementation using Swift Package Manager. The aim of the project is to show a readable, scalable and testable way to implement an SDK in iOS.
+The aim of the project is to show a readable, scalable and testable way to implement an SDK in iOS. It makes use of [PokeAPI](https://pokeapi.co/docs/v2) and [FunTranslations](https://funtranslations.com/api/shakespeare) for pulling relevant data to show Pokémon informations and translate them in a shakespearean manner.
 
 ## Installation
 
