@@ -1,5 +1,5 @@
 # About
-It's a just a simple example of an SDK implementation using Swift Package Manager. The aim of the project is to show a readable, scalable and testable to implement an SDK in iOS.
+It's a just a simple example of an SDK implementation using Swift Package Manager. The aim of the project is to show a readable, scalable and testable way to implement an SDK in iOS.
 
 ## Installation
 
