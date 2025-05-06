@@ -5,13 +5,18 @@
 //  Created by Fabrizio Scarano on 01/05/25.
 //
 
+/// A simple HTTP protocol that defines a wrapper to make GET and POST requests with some query parameters.
 protocol HTTPServiceProtocol {
     
+    /// The base path used by the wrapper.
     var basePath: String { get }
-        
-    func fetch<Result: Decodable>(
-        method: HTTPMethod,
-        path: String,
-        queryParameters: [String : String]
-    ) async throws -> Result
+    
+    /// A simple fetch operation, in which a method, a path and some query
+    /// parameters may be specified (only things needed for this project).
+    ///
+    /// - Parameters:
+    ///     - operation: The HTTPOperation to execute.
+    /// - Returns:
+    ///     a generic `Result` type expected from the HTTP call.
+    func fetch<Result: Decodable>(from operation: any HTTPOperation) async throws -> Result
 }

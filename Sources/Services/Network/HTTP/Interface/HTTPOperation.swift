@@ -15,11 +15,13 @@ protocol HTTPOperation: NetworkOperation where Result: Decodable {
     var queryParameters: [String : String] { get }
     
     var httpService: any HTTPServiceProtocol { get }
+    
+    func makeRequest() -> HTTPRequestProtocol
 }
 
 extension HTTPOperation {
     
     func run() async throws -> Result {
-        try await httpService.fetch(method: method, path: path, queryParameters: queryParameters)
+        try await httpService.fetch(from: self)
     }
 }
