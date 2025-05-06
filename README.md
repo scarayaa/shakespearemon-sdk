@@ -16,13 +16,18 @@ dependencies: [
     .package(url: "https://github.com/scarayaa/shakespearemon-sdk", from: "1.0.0"),
 ]
 ```
-
+and in your target dependencies:
+```swift
+.product(name: "shakespearemon-sdk", package: "shakespearemon-sdk"),
+```
 
 ## Usage
 
 Get a new instance of the service through the exposed factory method and use the exposed methods to retrieve Pokémons' data.
 
 ```swift
+import ShakespearemonSDK
+
 let service = ShakespearemonSDK.getNewServiceInstance()
 
 let name = "Charizard"
