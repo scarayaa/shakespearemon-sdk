@@ -27,6 +27,7 @@ public struct PokemonDetailView: View {
         VStack() {
             imageView
             Text(description)
+                .layoutPriority(1)
         }
         .padding()
         .overlay {
@@ -49,7 +50,7 @@ public struct PokemonDetailView: View {
                 ProgressView("Loading sprite...")
             }
         }
-        .frame(width: 250, height: 250, alignment: .center)
+        .frame(maxHeight: 250, alignment: .center)
     }
 }
 
