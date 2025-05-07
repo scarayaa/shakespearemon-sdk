@@ -3,6 +3,8 @@ The aim of the project is to show a readable, scalable and testable way to imple
 
 ## Installation
 
+The minimum supported platform version is iOS 15.
+
 ### For Xcode projects:
 
 You can add [shakespearemon-sdk](https://github.com/scarayaa/shakespearemon-sdk) to your project as a package.
