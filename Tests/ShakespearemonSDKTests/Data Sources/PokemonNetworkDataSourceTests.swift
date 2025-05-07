@@ -69,6 +69,10 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
                     // Shouldn't happen
                     return
                 }
+                
+                if !(3...12).contains(length) {
+                    XCTFail("The Pokémon length name wasn't in the correct range (\(length)), but no error was thrown")
+                }
             } catch let error as PokemonNetworkDataSourceError {
                 if length < 3, case .minNameLengthLimit(let min, let inserted) = error {
                     XCTAssertEqual(min, minLength)
@@ -76,7 +80,7 @@ final class PokemonNetworkDataSourceTests: XCTestCase {
                 } else if length > 12, case .maxNameLengthLimit(let max, let exceeded) = error {
                     XCTAssertEqual(max, maxLength)
                     XCTAssertEqual(exceeded, length)
-                } else if length >= 3, length <= 12 {
+                } else if (3...12).contains(length) {
                     XCTFail("A Pokémon length name error was thrown, but the name is in the correct range (\(length))")
                 }
             } catch {

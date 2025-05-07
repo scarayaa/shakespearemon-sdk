@@ -8,7 +8,7 @@
 import XCTest
 @testable import ShakespearemonSDK
 
-final class ShakespeareanRepositoryTests: XCTestCase {
+final class ShakespearemonRepositoryTests: XCTestCase {
     
     func testGetshakespeareanDescriptionOfPokemon() async throws {
         let testCase = RepositoryTestCase.pokemonshakespeareanDescription(languageCode: "en")

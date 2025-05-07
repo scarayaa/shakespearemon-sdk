@@ -124,6 +124,18 @@ class ShakespearemonAPITests: XCTestCase {
         }
     }
     
+    func testGetPokemonSpriteURLLengthError() async throws {
+        let data = jsonData(fromFile: "pokemon")
+        
+        let pokemonStub = try HTTPStubRequest()
+            .match(urlRegex: "/pokemon")
+            .stub(for: .get, code: .accepted, contentType: .json, body: data.jsonString())
+        
+        stubber.add(stub: pokemonStub)
+        
+        try await checkLengthErrorForTestCase(.getPokemonSpriteURL)
+    }
+    
     func testGetShakespeareanDescription() async throws {
         let pokemonSpeciesData = jsonData(fromFile: "pokemonspecies")
         let translationData = jsonData(fromFile: "translation")
@@ -165,6 +177,65 @@ class ShakespearemonAPITests: XCTestCase {
                 XCTFail("Unexpected error from ShakespearemonAPI (\(error.localizedDescription))")
             }
         }
+    }
+    
+    func testGetShakespeareanDescriptionLengthError() async throws {
+        let pokemonSpeciesData = jsonData(fromFile: "pokemonspecies")
+        let translationData = jsonData(fromFile: "translation")
+        
+        let pokemonSpeciesStub = try HTTPStubRequest()
+            .match(urlRegex: "/pokemon-species")
+            .stub(for: .get, code: .accepted, contentType: .json, body: pokemonSpeciesData)
+        
+        let translationStub = try HTTPStubRequest()
+            .match(urlRegex: "/shakespeare.json")
+            .stub(for: .get, code: .accepted, contentType: .json, body: translationData)
+        
+        stubber.add(stub: pokemonSpeciesStub)
+        stubber.add(stub: translationStub)
+        
+        try await checkLengthErrorForTestCase(.getShakespereanDescription)
+    }
+    
+    private func checkLengthErrorForTestCase(_ testCase: LengthErrorTestCase) async throws {
+        let minLength = 3
+        let maxLength = 12
+        
+        for length in 0...15 {
+            let name = "".padding(toLength: length, withPad: "a", startingAt: 0)
+            do {
+                switch testCase {
+                case .getShakespereanDescription:
+                    _ = try await sut.getShakespeareanDescription(ofPokemon: name)
+                case .getPokemonSpriteURL:
+                    _ = try await sut.getPokemonSpriteURL(ofPokemon: name)
+                }
+                
+                if !(3...12).contains(length) {
+                    XCTFail("The Pokémon length name wasn't in the correct range (\(length)), but no error was thrown")
+                }
+            } catch let error as PokemonNetworkDataSourceError {
+                if length < 3, case .minNameLengthLimit(let min, let inserted) = error {
+                    XCTAssertEqual(min, minLength)
+                    XCTAssertEqual(inserted, length)
+                } else if length > 12, case .maxNameLengthLimit(let max, let exceeded) = error {
+                    XCTAssertEqual(max, maxLength)
+                    XCTAssertEqual(exceeded, length)
+                } else if (3...12).contains(length) {
+                    XCTFail("A Pokémon length name error was thrown, but the name is in the correct range (\(length))")
+                }
+            } catch {
+                XCTFail("Unexpected error from PokemonNetworkDataSource")
+            }
+        }
+    }
+}
+
+extension ShakespearemonAPITests {
+    
+    enum LengthErrorTestCase {
+        case getShakespereanDescription
+        case getPokemonSpriteURL
     }
     
     private func jsonData(fromFile name: String) -> Data {
