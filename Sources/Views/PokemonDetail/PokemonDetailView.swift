@@ -31,7 +31,6 @@ public struct PokemonDetailView: View {
             }
     }
         
-    @ViewBuilder
     var scrollableView: some View {
         ScrollView {
             VStack() {
