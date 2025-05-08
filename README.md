@@ -3,7 +3,7 @@ The aim of the project is to show a readable, scalable and testable way to imple
 
 ## Installation
 
-The minimum supported platform version is iOS 15.
+The minimum supported platform version is iOS 17.
 
 ### For Xcode projects:
 
