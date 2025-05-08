@@ -24,16 +24,23 @@ public struct PokemonDetailView: View {
     }
     
     public var body: some View {
-        VStack() {
-            imageView
-            Text(description)
-                .layoutPriority(1)
+        scrollableView
+            .overlay {
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke()
+            }
+    }
+        
+    @ViewBuilder
+    var scrollableView: some View {
+        ScrollView {
+            VStack() {
+                imageView
+                textView
+            }
+            .padding()
         }
-        .padding()
-        .overlay {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke()
-        }
+        .scrollBounceBehavior(.basedOnSize)
     }
     
     var imageView: some View {
@@ -50,7 +57,11 @@ public struct PokemonDetailView: View {
                 ProgressView("Loading sprite...")
             }
         }
-        .frame(maxHeight: 250, alignment: .center)
+        .frame(height: 250, alignment: .center)
+    }
+    
+    var textView: some View {
+        Text(description)
     }
 }
 
